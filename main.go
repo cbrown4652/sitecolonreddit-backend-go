@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"os"
 	"github.com/gin-contrib/cors"
@@ -18,5 +19,10 @@ func main() {
 	router.PUT("/search", searchPUT)
 
 	port := os.Getenv("PORT")
-	router.Run(port)
+	if port == "" {
+		port = "8080"
+	}
+	if err := router.Run(":" + port); err != nil {
+		log.Panicf("error: %s", err)
+	}
 }
